@@ -22,3 +22,19 @@ Projekt demonstruje użycie niezależnych wolumenów zarządzanych przez Dockera
    ```bash
    docker volume create bank_db_data
    docker run -d --name baza_sklepu -e POSTGRES_PASSWORD=tajne_haslo -v bank_db_data:/var/lib/postgresql postgres
+
+## Projekt 3: Izolacja i komunikacja za pomocą Docker Networks
+
+### Opis projektu
+Projekt demonstruje tworzenie dedykowanej sieci wirtualnej (`User-Defined Bridge Network`) w celu odizolowania kontenerów oraz uruchomienia wewnętrznego mechanizmu DNS Dockera. W ramach ćwiczenia baza danych PostgreSQL została uruchomiona bez mapowania portów na hosta (pełna izolacja od sieci zewnętrznej), a komunikacja między kontenerami została zrealizowana przy użyciu nazw kontenerów (`service discovery`), eliminując potrzebę hardkodowania adresów IP.
+
+### Jak uruchomić?
+1. Stwórz dedykowaną sieć wirtualną:
+   ```bash
+   docker network create bezpieczna_siec
+2. Uruchom kontener bazy danych wewnątrz sieci:
+   ```Bash
+   docker run -d --name kontener_bazy --network bezpieczna_siec -e POSTGRES_PASSWORD=super_tajne_haslo postgres
+3. Przetestuj łączność z innego kontenera w tej samej sieci za pomocą nazwy DNS:
+   ```Bash
+   docker run -it --rm --network bezpieczna_siec alpine ping -c 4 kontener_bazy
