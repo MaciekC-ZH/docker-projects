@@ -49,11 +49,10 @@ Zaawansowany projekt łączący wiedzę z zakresu wolumenów (`Docker Volumes`) 
    ```bash
    docker network create siec_produkcyjna
    docker volume create dane_postgres_prod
-Uruchom odizolowaną bazę danych:
+2. Uruchom odizolowaną bazę danych:
+   ```Bash
+   docker run -d --name db_prod --network siec_produkcyjna -v dane_postgres_prod:/var/lib/postgresql -e POSTGRES_PASSWORD=haslo_prod postgres
 
-Bash
-docker run -d --name db_prod --network siec_produkcyjna -v dane_postgres_prod:/var/lib/postgresql -e POSTGRES_PASSWORD=haslo_prod postgres
-Uruchom panel administracyjny na porcie 5050:
-
-Bash
-docker run -d --name panel_admina --network siec_produkcyjna -p 5050:80 -e PGADMIN_
+3. Uruchom panel administracyjny na porcie 5050:
+   ```Bash
+   docker run -d --name panel_admina --network siec_produkcyjna -p 5050:80 -e PGADMIN_
