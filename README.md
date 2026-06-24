@@ -38,3 +38,22 @@ Projekt demonstruje tworzenie dedykowanej sieci wirtualnej (`User-Defined Bridge
 3. Przetestuj łączność z innego kontenera w tej samej sieci za pomocą nazwy DNS:
    ```Bash
    docker run -it --rm --network bezpieczna_siec alpine ping -c 4 kontener_bazy
+
+## Projekt 4: Dwuwarstwowa architektura produkcyjna (PostgreSQL + pgAdmin)
+
+### Opis projektu
+Zaawansowany projekt łączący wiedzę z zakresu wolumenów (`Docker Volumes`) oraz sieci (`Docker Networks`). Zbudowano dwuwarstwową architekturę składającą się z bazy danych PostgreSQL oraz webowego narzędzia administracyjnego pgAdmin. Baza danych została w pełni odizolowana w sieci wewnętrznej, a jej stan jest utrwalany w niezależnym wolumenie. Dostęp do zarządzania strukturą danych odbywa się bezpiecznie przez kontener proxy (pgAdmin) wystawiony na porcie `5050`.
+
+### Jak uruchomić?
+1. Przygotuj sieć i wolumen:
+   ```bash
+   docker network create siec_produkcyjna
+   docker volume create dane_postgres_prod
+Uruchom odizolowaną bazę danych:
+
+Bash
+docker run -d --name db_prod --network siec_produkcyjna -v dane_postgres_prod:/var/lib/postgresql -e POSTGRES_PASSWORD=haslo_prod postgres
+Uruchom panel administracyjny na porcie 5050:
+
+Bash
+docker run -d --name panel_admina --network siec_produkcyjna -p 5050:80 -e PGADMIN_
