@@ -55,4 +55,7 @@ Zaawansowany projekt łączący wiedzę z zakresu wolumenów (`Docker Volumes`) 
 
 3. Uruchom panel administracyjny na porcie 5050:
    ```Bash
-   docker run -d --name panel_admina --network siec_produkcyjna -p 5050:80 -e PGADMIN_
+   docker run -d --name panel_admina --network siec_produkcyjna -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=admin@cyberbank.pl -e PGADMIN_DEFAULT_PASSWORD=admin_haslo dpage/pgadmin4
+
+## Projekt 5: Utrwalanie wiedzy.
+   Na podstawie wiedzy z poprzednich ćwieczeń, wykonałem zadanie wygenerowane przez Gemini. Nic nowszego niż to co było dotychczas.
