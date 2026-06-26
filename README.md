@@ -57,5 +57,41 @@ Zaawansowany projekt łączący wiedzę z zakresu wolumenów (`Docker Volumes`) 
    ```Bash
    docker run -d --name panel_admina --network siec_produkcyjna -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=admin@cyberbank.pl -e PGADMIN_DEFAULT_PASSWORD=admin_haslo dpage/pgadmin4
 
-## Projekt 5: Utrwalanie wiedzy.
+## Zadanie 5: Utrwalanie wiedzy.
    Na podstawie wiedzy z poprzednich ćwieczeń, wykonałem zadanie wygenerowane przez Gemini. Nic nowszego niż to co było dotychczas.
+
+## Projekt 5: Budowanie autorskich obrazów za pomocą Dockerfile
+
+### Opis projektu
+Projekt demonstruje proces tworzenia własnego, niezależnego obrazu kontenera przy użyciu pliku konfiguracyjnego `Dockerfile`. Jako bazy użyto ultralekkiego obrazu `nginx:alpine`, do którego wstrzyknięto statyczny plik HTML na etapie budowania struktury warstwowej (`build time`). Projekt udowadnia, że aplikacja wraz ze wszystkimi zasobami może zostać w pełni skonteneryzowana i uruchomiona na dowolnym środowisku bez konieczności montowania zewnętrznych wolumenów deweloperskich.
+
+### Jak zbudować i uruchomić?
+1. Przejdź do katalogu projektu:
+   ```bash
+   cd projekt-dockerfile
+2. Zbuduj autorski obraz (pamiętaj o kropce na końcu):
+
+   ```Bash
+   docker build -t moj-pierwszy-obraz:v1 .
+   
+3. Uruchom kontener na podstawie nowo powstałego obrazu:
+   ```Bash
+   docker run -d --name moja_autorska_strona -p 8080:80 moj-pierwszy-obraz:v1
+
+## Projekt 6: Customizacja systemowa za pomocą instrukcji RUN i CMD
+
+### Opis projektu
+Projekt demonstruje tworzenie obrazu Dockera opartego na oficjalnej dystrybucji `ubuntu:latest`. W procesie budowania warstwowego wykorzystano instrukcję `RUN` do aktualizacji systemowego menedżera pakietów `apt` oraz instalacji narzędzi sieciowych (`curl`, `ping`). Instrukcja `CMD` została skonfigurowana w formacie *Exec Form*, programując kontener do automatycznego odpytania zewnętrznego API o publiczny adres IP hosta bezpośrednio przy uruchomieniu.
+
+### Jak zbudować i uruchomić?
+1. Przejdź do katalogu projektu:
+   ```bash
+   cd projekt-ubuntu
+2. Zbuduj obraz:
+
+   ```Bash
+   docker build -t moje-ubuntu:v1 .
+3. Uruchom efemeryczny kontener testowy:
+
+   ```Bash
+   docker run --rm moje-ubuntu:v1
