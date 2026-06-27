@@ -95,3 +95,18 @@ Projekt demonstruje tworzenie obrazu Dockera opartego na oficjalnej dystrybucji 
 
    ```Bash
    docker run --rm moje-ubuntu:v1
+## Projekt 7: Orkiestracja wielokontenerowa za pomocą Docker Compose
+
+### Opis projektu
+Projekt przedstawia w pełni zautomatyzowane uruchamianie wielowarstwowego środowiska (Baza danych PostgreSQL + Panel administracyjny pgAdmin 4) za pomocą jednego pliku konfiguracyjnego `docker-compose.yml`. Konfiguracja definiuje izolowaną sieć wirtualną dla bezpiecznej komunikacji między kontenerami oraz trwały wolumen zarządzany przez Dockera, chroniący stan bazy danych przed usunięciem podczas restartu usług. Projekt eliminuje potrzebę ręcznego wpisywania sekwencji komend `docker run`.
+
+### Jak uruchomić?
+1. Przejdź do katalogu projektu:
+   ```bash
+   cd projekt-compose
+2. Uruchom całą infrastrukturę w tle:
+   ```Bash
+   docker compose up -d
+3. Zatrzymaj i usuń strukturę środowiska:
+   ```Bash
+   docker compose down

@@ -1,0 +1,31 @@
+services:
+  # --- KONTENER 1: BAZA DANYCH ---
+  baza_prod:
+    image: postgres:latest
+    container_name: db_prod_compose
+    environment:
+      - POSTGRES_PASSWORD=haslo_prod_compose
+    volumes:
+      - dane_bazy:/var/lib/postgresql
+    networks:
+      - siec_lokalna
+
+  # --- KONTENER 2: PANEL ADMINA ---
+  panel_admina:
+    image: dpage/pgadmin4
+    container_name: panel_admina_compose
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@cyberbank.pl
+      - PGADMIN_DEFAULT_PASSWORD=admin_haslo
+    networks:
+      - siec_lokalna
+
+# --- DEFINICJA WOLUMENÓW ---
+volumes:
+  dane_bazy:
+
+# --- DEFINICJA SIECI ---
+networks:
+  siec_lokalna:
