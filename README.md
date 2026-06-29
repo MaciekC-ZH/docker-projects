@@ -110,3 +110,15 @@ Projekt przedstawia w pełni zautomatyzowane uruchamianie wielowarstwowego środ
 3. Zatrzymaj i usuń strukturę środowiska:
    ```Bash
    docker compose down
+## Projekt 8: Własny mikroserwis (Python + Redis) zarządzany przez Compose
+
+### Opis projektu
+Projekt przedstawia zaawansowane użycie Docker Compose do automatycznego budowania (parametr `build: .`) własnej aplikacji napisanej w Pythonie (Flask) na podstawie lokalnego pliku `Dockerfile` oraz jednoczesne łączenie jej z gotową bazą danych w pamięci podręcznej (Redis). Aplikacja zlicza odwiedziny użytkowników, zachowując stan licznika w bazie Redis. Kontenery komunikują się wewnątrz odizolowanej sieci wirtualnej.
+
+### Jak uruchomić?
+1. Przejdź do katalogu projektu:
+   ```bash
+   cd moj-mikroserwis
+2. Zbuduj i uruchom środowisko:
+   ```Bash
+   docker compose up -d --build

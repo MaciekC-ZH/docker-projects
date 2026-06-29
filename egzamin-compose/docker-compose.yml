@@ -1,0 +1,25 @@
+services:
+  baza_danych:
+    image: influxdb:2.7
+    container_name: baza_analityczna
+    environment:
+      - INFLUXD_USER_PASSWORD=monitoring2026
+    volumes:
+      - dane_influx:/var/lib/influxdb2
+    networks:
+      - siec_monitoringu
+
+  panel_grafana:
+    image: grafana/grafana:latest
+    container_name: panel_grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - siec_monitoringu
+    depends_on:
+      - baza_danych
+
+volumes:
+  dane_influx:
+networks:
+  siec_monitoringu:

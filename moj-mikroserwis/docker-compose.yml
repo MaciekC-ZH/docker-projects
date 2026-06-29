@@ -1,0 +1,21 @@
+services:
+  # USŁUGA 1: NASZA WŁASNA APLIKACJA
+  moja_aplikacja:
+    build: .  # <-- MAGIA! Docker sam odpali Dockerfile z tego folderu
+    container_name: web_python_custom
+    ports:
+      - "8000:5000"  # Wchodzimy przez port 8000 na PC
+    networks:
+      - siec_projektu
+    depends_on:
+      - baza_redis
+
+  # USŁUGA 2: GOTOWY REDIS Z INTERNETU
+  baza_redis:
+    image: redis:alpine
+    container_name: redis_licznik
+    networks:
+      - siec_projektu
+
+networks:
+  siec_projektu:
