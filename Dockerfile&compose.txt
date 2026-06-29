@@ -1,0 +1,25 @@
+Dockerfile
+FROM - Fundament. Jaki system lub gotowy obraz (np. Python, Node, Ubuntu) bierzemy jako bazę? Musi być na samym początku.FROM python:3.10-slim
+WORKDIR - Folder roboczy. Od tej linii wszystkie kolejne komendy będą wykonywać się w tym konkretnym folderze wewnątrz kontenera (taki wewnętrzny cd).WORKDIR /app
+COPY - Przerzut plików. Kopiuje pliki z Twojego laptopa (lewa strona) do wnętrza kontenera (prawa strona).COPY requirements.txt .
+RUNInstalacja w fabryce. Wykonuje komendę systemową w trakcie budowania obrazu (np. instaluje pakiety, pobiera biblioteki). Wykonuje się tylko raz.RUN pip install -r requirements.txtlub RUN apt-get update
+ENV - Zmienna na stałe. Definiuje zmienną środowiskową, która będzie zaszyta w tym obrazie i dostępna dla aplikacji.ENV PORT=5000
+EXPOSE - Informacja o porcie. Dokumentacja dla świata, na jakim porcie nasza aplikacja w środku będzie nasłuchiwać. Sam z siebie nie otwiera portu na laptopie.EXPOSE 5000
+CMD - Komenda startowa. Co kontener ma automatycznie uruchomić w momencie, gdy odpalamy go na serwerze. Może być tylko jedno CMD na końcu pliku.CMD ["python", "app.py"]
+
+Docker Compose (docker-compose.yml)Plik konfiguracyjny dla całego środowiska (wielu kontenerów, sieci i wolumenów).
+Sekcje główne (Najwyższy poziom – bez spacji):
+services: – Tu zaczyna się lista wszystkich kontenerów, które chcesz uruchomić.
+volumes: – Definicja globalnych dysków twardych (żeby dane nie zginęły).
+networks: – Definicja wirtualnych kabli/sieci do łączenia kontenerów.
+
+Parametry wewnątrz konkretnej usługi (kontenera):
+image:	Gotowiec. Użyj gotowego obrazu z internetu (Docker Hub).image: postgres:15-alpine
+build:	Własna produkcja. Zbuduj obraz sam na podstawie pliku Dockerfile. Kropka . oznacza: "szukaj Dockerfile w tym samym folderze".build: .
+container_name:	Własna nazwa. Nadaje ładną, stałą nazwę kontenerowi widoczną w docker ps (zamiast losowej nazwy generowanej przez system).container_name: moja_baza_prod
+ports:	Most sieciowy. Przekierowanie ruchu. PORT_NA_LAPTOPIE : PORT_W_KONTENERZE.ports:- "8080:80"
+environment:	Suwaki konfiguracyjne. Zmienne środowiskowe przekazywane do kontenera podczas startu (hasła, loginy).environment:- POSTGRES_PASSWORD=tajne
+volumes:	Podpięcie dysku. Podłącza stworzony na dole wolumen (lub folder z laptopa) do wnętrza kontenera. NAZWA_DYSKU : ŚCIEŻKA_W_KONTENERZE.volumes:- dane_bazy:/var/lib/mysql
+networks:	Wpięcie do sieci. Przypisuje kontener do konkretnego wirtualnego switcha/sieci.networks:- siec_wewnetrzna
+depends_on:	Kolejność startu. Mówi, że ten kontener ma poczekać, aż inny kontener z listy zacznie się uruchamiać.depends_on:- baza_danych
+restart:	Polisa ubezpieczeniowa. Co ma się stać, gdy aplikacja się wywali lub serwer się zrestartuje. always – podnieś kontener zawsze.restart: always
