@@ -1,0 +1,17 @@
+services:
+ aplikacja:
+  build: .
+  container_name: serwis_web
+  ports:
+   - 3000:3000
+  networks:
+   - wspolna_siec
+
+ baza_redis:
+  image: redis:alpine
+  container_name: baza_cache
+  networks:
+   - wspolna_siec
+
+networks:
+ wspolna_siec:

@@ -122,3 +122,21 @@ Projekt przedstawia zaawansowane użycie Docker Compose do automatycznego budowa
 2. Zbuduj i uruchom środowisko:
    ```Bash
    docker compose up -d --build
+
+## Projekt 9: Zaawansowany i bezpieczny mikroserwis Node.js (Praktyka Dockerfile)
+
+### Opis projektu
+Projekt skupia się na wdrożeniu dobrych praktyk produkcyjnych (*Production-Ready*) podczas budowania obrazów za pomocą Dockerfile oraz orkiestracji w Docker Compose. Środowisko składa się z aplikacji webowej w Node.js oraz bazy danych Redis spiętych we wspólnej sieci wirtualnej.
+
+### Kluczowe pojęcia i praktyki wdrożone w projekcie:
+1. **Optymalizacja pamięci podręcznej (Docker Cache/Layers):** Plik `Dockerfile` został podzielony tak, aby instrukcje rzadko zmieniane (instalacja zależności przez `npm install`) były wykonywane przed kopiowaniem kodu źródłowego (`server.js`). Dzięki temu edycja kodu aplikacji nie powoduje ponownego pobierania pakietów z internetu, a budowanie obrazu trwa ułamek sekundy.
+2. **Bezpieczeństwo kontenera (Non-root User):** Domyślnie Docker uruchamia procesy jako superadministrator (`root`). W tym projekcie, po wykonaniu zadań instalacyjnych przez roota, uprawnienia są celowo obniżane za pomocą instrukcji `USER node`. W przypadku przejęcia kontenera, haker ma ograniczone pole manewru.
+3. **Porządek strukturalny:** Wykorzystanie instrukcji `WORKDIR` zapobiega mieszaniu plików aplikacji z plikami systemowymi Linuxa wewnątrz kontenera.
+
+### Jak uruchomić i przetestować bezpieczeństwo?
+1. Uruchomienie środowiska:
+   ```bash
+   docker compose up -d
+2. Test bezpieczeństwa użytkownika (powinien zwrócić node, a nie root):
+   ```Bash
+   docker exec -it serwis_web whoami
