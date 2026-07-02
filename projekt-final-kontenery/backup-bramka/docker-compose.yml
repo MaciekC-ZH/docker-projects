@@ -1,0 +1,19 @@
+services:
+ bramka_paygate:
+  build: .
+  container_name: bramka_produkcja
+  ports:
+   - "${PORT_ZEWNETRZNY}:${PORT_WEWNETRZNY}"
+  environment:
+   - PORT_BRAMKI=${PORT_WEWNETRZNY}
+   - SECRET_KEY=${TAJNY_KLUCZ_SZYFRUJACY}
+  networks:
+   - siec_bramki
+ baza_redis:
+  image: redis:alpine
+  container_name: baza_redis
+  networks:
+   - siec_bramki
+
+networks:
+ siec_bramki:
